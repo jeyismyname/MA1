@@ -32,29 +32,30 @@ class main extends Phaser.Scene {
 
 
         // Add image and detect spacebar keypress
-        //this.add.image(0, 0, 'main').setOrigin(0, 0);
+        this.add.sprite(400,400,"background1").setScale(10);
+        this.add.sprite(420,350,"rules");
+
+        // text
+        this.add.text(250,80, 'Story Behind' , { font: '30px Fipps', fill: '#000000'});
+        this.add.text(200,600, 'press space to continue!' , { font: '20px Fipps', fill: '#96450f'});
+
+         // player
+      this.player = this.physics.add.sprite(640, 500, 'player').play('downplayer').setScale(2);
 
         // Check for spacebar or any key here
         var spaceDown = this.input.keyboard.addKey('SPACE');
 
         // On spacebar event, call the world scene        
         spaceDown.on('down', function () {
-            console.log('Jump to level1 scene');
+            console.log('Jump to intro1 scene');
 
-            this.scene.start('level1',
+            this.scene.start('intro1',
                 // Optional parameters
                 {
 
                 }
             );
-        }, this);
-
-
-        // Add any text in the main page
-        this.add.text(90, 600, 'Press spacebar to continue', {
-            font: '30px Courier',
-            fill: '#FFFFFF'
-        });
+        }, this)
 
 
         // Create all the game animations here

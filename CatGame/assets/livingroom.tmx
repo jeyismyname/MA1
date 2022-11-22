@@ -9,8 +9,8 @@
  <tileset firstgid="1785" name="generic" tilewidth="32" tileheight="32" tilecount="1248" columns="16">
   <image source="1_Generic_32x32.png" width="512" height="2496"/>
  </tileset>
- <tileset firstgid="3033" name="interior" tilewidth="32" tileheight="32" tilecount="17024" columns="16">
-  <image source="Interiors_32x32.png" width="512" height="34048"/>
+ <tileset firstgid="3033" name="interior" tilewidth="32" tileheight="32" tilecount="1248" columns="16">
+  <image source="14_Basement_32x32.png" width="512" height="1600"/>
  </tileset>
  <layer id="1" name="floorLayer" width="25" height="25">
   <data encoding="base64">

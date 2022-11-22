@@ -15,6 +15,12 @@ class level3 extends Phaser.Scene {
     // Step 2 : Preload any images here
     this.load.image("gardenING", "assets/pipoya.png");
     this.load.image("treesING", "assets/trees-green.png");
+
+     // load audios
+     this.load.audio("collect", "assets/sound_effects/collectcoin.mp3");
+     this.load.audio("loose", "assets/sound_effects/loose_life.mp3");
+     this.load.audio("yay", "assets/sound_effects/yay.mp3");
+     this.load.audio("water","assets/sound_effects/splash2.mp3");
     
 
   }
@@ -25,6 +31,11 @@ class level3 extends Phaser.Scene {
     //Step 3 - Create the map from main
     //let map = this.make.tilemap({ key: "world1" });
     let map = this.make.tilemap({ key: "world3" });
+
+    //sound effects
+    this.looseSnd = this.sound.add("loose");
+    this.yaySnd = this.sound.add("yay");
+    this.splashSnd = this.sound.add("water");
 
     
     // Step 4 Load the game tiles
@@ -122,6 +133,21 @@ class level3 extends Phaser.Scene {
 
     // Add time event / movement here
 
+   // overlap1 puddles
+  this.physics.add.overlap(this.puddle_1, this.player, this.overlap1, null, this);
+  this.physics.add.overlap(this.puddle_2, this.player, this.overlap1, null, this);
+  this.physics.add.overlap(this.puddle_3, this.player, this.overlap1, null, this);
+  this.physics.add.overlap(this.puddle_4, this.player, this.overlap1, null, this);
+  this.physics.add.overlap(this.puddle_5, this.player, this.overlap1, null, this);
+
+  // pverlap2 cockroaches
+  this.physics.add.overlap(this.cockroach1, this.player, this.overlap2, null, this);
+  this.physics.add.overlap(this.cockroach2, this.player, this.overlap2, null, this);
+  this.physics.add.overlap(this.cockroach3, this.player, this.overlap2, null, this);
+
+  // overlap3 straycat
+  this.physics.add.overlap(this.straycat, this.player, this.overlap3, null, this);
+
     // get the tileIndex number in json, +1
     //mapLayer.setTileIndexCallback(11, this.room1, this);
 
@@ -136,15 +162,15 @@ class level3 extends Phaser.Scene {
     var spaceDown = this.input.keyboard.addKey('SPACE');
         
     spaceDown.on('down', function(){
-    console.log("Spacebar pressed, goto main");
-    this.scene.start("main");
+    console.log("Spacebar pressed, goto winingScene3");
+    this.scene.start("winningScene3");
     }, this );
 
-    var bDown = this.input.keyboard.addKey('B');
-    bDown.on('down', function(){
-      console.log("B pressed (previous game)");
-          this.scene.start("level2");
-      }, this );
+    // var bDown = this.input.keyboard.addKey('B');
+    // bDown.on('down', function(){
+    //   console.log("B pressed (previous game)");
+    //       this.scene.start("level2");
+    //   }, this );
   } /////////////////// end of create //////////////////////////////
 
   update() {
@@ -185,6 +211,24 @@ class level3 extends Phaser.Scene {
 
      
   } /////////////////// end of update //////////////////////////////
+
+  overlap1(puddles, player){
+    console.log("puddle overlap player")
+    // play collect sound
+    this.splashSnd.play();
+  }
+
+  overlap2(roach, player){
+    console.log("roach overlap player")
+    // play collect sound
+    this.yaySnd.play();
+    roach.disableBody( true, true);
+  }
+
+  overlap3(straycat, play){
+    // play loose life sound
+    this.looseSnd.play();
+  }
 
   moveRightLeft() {
     console.log("moveDownUp");

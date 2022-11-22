@@ -20,12 +20,23 @@ class level1 extends Phaser.Scene {
     this.load.image("livingroom", "assets/2_LivingRoom_32x32.png");
     this.load.image("pipoyaING", "assets/pipoya.png");
 
-    // game.load.audio('collect', 'assets/sound_effects/collectcoin-6075');
+    // load audios
+    this.load.audio("collect", "assets/sound_effects/collectcoin.mp3");
+    this.load.audio("loose", "assets/sound_effects/loose_life.mp3");
+    this.load.audio("yay", "assets/sound_effects/yay.mp3");
+    this.load.audio("finish", "assets/sound_effects/levelcomplete.mp3");
 
   }
 
   create() {
     console.log("*** world scene");
+
+  //sound effects
+    this.collectSnd = this.sound.add("collect");
+    this.looseSnd = this.sound.add("loose");
+    this.yaySnd = this.sound.add("yay");
+    // this.completelevel = this.sound.add("finish");
+    
 
     //Step 3 - Create the map from main
     //let map = this.make.tilemap({ key: "world1" });
@@ -133,18 +144,20 @@ class level1 extends Phaser.Scene {
       this.physics.add.overlap(this.heart2, this.player, this.overlap1, null, this);
       this.physics.add.overlap(this.heart3, this.player, this.overlap1, null, this);
 
-      // overlap 2 robot
+    // overlap 2 robot
       this.physics.add.overlap(this.robot, this.player, this.overlap2, null, this);
 
+    // overlap 3 lizard
+    this.physics.add.overlap(this.lizard1, this.player, this.overlap3, null, this);
+
     // camera follow player
-   
     this.cameras.main.startFollow(this.player);
 
     var spaceDown = this.input.keyboard.addKey('SPACE');
         
         spaceDown.on('down', function(){
-        console.log("Spacebar pressed, goto level2");
-        this.scene.start("level2");
+        console.log("Spacebar pressed, goto winningScene");
+        this.scene.start("winningScene");
         }, this );
 
       var bDown = this.input.keyboard.addKey('B');
@@ -152,6 +165,9 @@ class level1 extends Phaser.Scene {
         console.log("B pressed (reload game)");
             this.scene.start("main");
         }, this );
+
+        
+
   } /////////////////// end of create //////////////////////////////
 
   update() {
@@ -160,8 +176,9 @@ class level1 extends Phaser.Scene {
     this.physics.moveToObject( this.robot, this.player, 380, 3000);
 
     if (this.player.y > 878 && this.player.y < 913 && this.player.x > 566 && this.player.x < 617) {
-      console.log("Jump to level2")
-      this.level2();
+      console.log("Jump to winningScene")
+      this.winningScene();
+      
       }
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -204,12 +221,29 @@ class level1 extends Phaser.Scene {
     this.scene.start("level2")
   }
 
-  overlap1(){
-    console.log("heart overlap player")
+  winningScene(player, tile){
+    console.log("winningScene function")
+    this.scene.start("winningScene")
   }
 
-  overlap2(){
+  overlap1(heart, player){
+    console.log("heart overlap player")
+    // play collect sound
+    this.collectSnd.play();
+    heart.disableBody( true, true);
+  }
+
+  overlap2(robot, player){
     console.log("robot overlap player")
+    // play loose sound
+    this.looseSnd.play();
+  }
+
+  overlap3(lizard, player){
+    console.log("lizard overlap player")
+    // play yay sound
+    this.yaySnd.play();
+    lizard.disableBody(true, true);
   }
 
   moveDownUp() {

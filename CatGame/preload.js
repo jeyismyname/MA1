@@ -33,6 +33,27 @@ class preload extends Phaser.Scene {
 
     // puddle sprite
     this.load.spritesheet('puddles','assets/puddle.png',{ frameWidth:64, frameHeight:64 });
+
+    // preload bg
+    this.load.image("background1","assets/intro_bg2.jpg");
+
+    // rules
+    this.load.image("rules", "assets/window.png");
+
+    // level1 rules
+    this.load.image("rule_1", "assets/level1_rules.png");
+
+    // level2 rules
+    this.load.image("rule_2", "assets/level2_rules.png");
+
+    // level3 rules
+    this.load.image("rule_3", "assets/level3_rules.png");
+
+    // story bg
+    this.load.image("intros", "assets/levels.jpg");
+
+     // winning
+     this.load.image("won", "assets/win_bg.jpg");
   }
 
   create() {
@@ -124,6 +145,14 @@ class preload extends Phaser.Scene {
       frameRate: 3,
       repeat: -1,
       });
+
+      // intro text
+      this.add.sprite(400,400,"background1").setScale(10);
+      this.add.text(120,230, 'A Day in Life of Omi' , { font: '35px Fipps', fill: '#000000'});
+      this.add.text(200,480, 'press space to continue!' , { font: '20px Fipps', fill: '#96450f'});
+
+      // player
+      this.player = this.physics.add.sprite(370, 400, 'player').play('leftplayer').setScale(2);
  
 
 // Check for spacebar or any key here
@@ -131,9 +160,9 @@ var spaceDown = this.input.keyboard.addKey('SPACE');
 
 // On spacebar event, call the world scene        
 spaceDown.on('down', function () {
-    console.log('Jump to level1 scene');
+    console.log('Jump to main');
 
-    this.scene.start('level1',
+    this.scene.start('main',
         // Optional parameters
         {
 
