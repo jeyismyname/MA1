@@ -33,11 +33,7 @@ class main extends Phaser.Scene {
 
         // Add image and detect spacebar keypress
         this.add.sprite(400,400,"background1").setScale(10);
-        this.add.sprite(420,350,"rules");
-
-        // text
-        this.add.text(250,80, 'Story Behind' , { font: '30px Fipps', fill: '#000000'});
-        this.add.text(200,600, 'press space to continue!' , { font: '20px Fipps', fill: '#96450f'});
+        this.add.sprite(400,400,"story");
 
          // player
       this.player = this.physics.add.sprite(640, 500, 'player').play('downplayer').setScale(2);

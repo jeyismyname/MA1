@@ -10,7 +10,9 @@ class intro2 extends Phaser.Scene {
   preload() {
     // Step 1, load JSON
     //this.load.tilemapTiledJSON("world1", "assets/Tutorial1.json");
-    
+    this.load.image("intros", "assets/levels.jpg");
+       // level2 rules
+    this.load.image("rule_2", "assets/level2_rules.png");
    
 
   }
@@ -29,12 +31,8 @@ class intro2 extends Phaser.Scene {
     this.add.sprite(400,400,"rule_2");
 
     // heart anim
-    this.heart = this.physics.add.sprite(280, 110, 'heart').play('heartAnim');
-    this.heart = this.physics.add.sprite(280, 110, 'heart').play('heartAnim');
-
-     // text
-     this.add.text(320,80, 'Level 2' , { font: '32px Fipps', fill: '#000000'});
-     this.add.text(200,600, 'press space to continue!' , { font: '20px Fipps', fill: '#96450f'});
+    this.heart = this.physics.add.sprite(270, 150, 'heart').play('heartAnim');
+   
 
     
         // Check for spacebar or any key here

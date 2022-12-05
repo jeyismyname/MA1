@@ -29,13 +29,7 @@ class intro3 extends Phaser.Scene {
     this.add.sprite(400,400,"rule_3");
 
     // heart anim
-    this.heart = this.physics.add.sprite(280, 110, 'heart').play('heartAnim');
-    this.heart = this.physics.add.sprite(280, 110, 'heart').play('heartAnim');
-
-     // text
-     this.add.text(320,80, 'Level 3' , { font: '32px Fipps', fill: '#000000'});
-     this.add.text(200,600, 'press space to continue!' , { font: '20px Fipps', fill: '#96450f'});
-
+    this.heart = this.physics.add.sprite(270, 150, 'heart').play('heartAnim');
     
         // Check for spacebar or any key here
         var spaceDown = this.input.keyboard.addKey('SPACE');

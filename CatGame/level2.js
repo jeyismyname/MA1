@@ -25,13 +25,20 @@ class level2 extends Phaser.Scene {
     this.load.audio("collect", "assets/sound_effects/collectcoin.mp3");
     this.load.audio("loose", "assets/sound_effects/loose_life.mp3");
     this.load.audio("yay", "assets/sound_effects/yay.mp3");
-    this.load.audio("complete", "assets/sound_effects/level_completion.mp3");
 
 
   }
 
   create() {
     console.log("*** world scene");
+
+     // Call to update inventory
+     this.time.addEvent({
+      delay: 500,
+      callback: updateInventory,
+      callbackScope: this,
+      loop: false,
+    });
 
     //Step 3 - Create the map from main
     //let map = this.make.tilemap({ key: "world1" });
@@ -75,19 +82,19 @@ class level2 extends Phaser.Scene {
 
   
     // snacks1
-    var Kheart1 = map.findObject("KobjectLayer", (obj) => obj.name === "Ksnacks1");
-    this.Kheart1 = this.physics.add.sprite(Kheart1.x, Kheart1.y, 'Ksnacks1').play('snacksAnim');
-    this.Kheart1.body.setSize(this.Kheart1.width*0.7, this.Kheart1.height*0.5)
+    var fish01 = map.findObject("KobjectLayer", (obj) => obj.name === "Ksnacks1");
+    this.fish01 = this.physics.add.sprite(fish01.x, fish01.y, 'Ksnacks1').play('snacksAnim');
+    this.fish01.body.setSize(this.fish01.width*0.7, this.fish01.height*0.5)
 
     // snacks2
-    var Kheart2 = map.findObject("KobjectLayer", (obj) => obj.name === "Ksnacks2");
-    this.Kheart2 = this.physics.add.sprite(Kheart2.x, Kheart2.y, 'Ksnacks2').play('snacksAnim');
-    this.Kheart2.body.setSize(this.Kheart2.width*0.7, this.Kheart2.height*0.5)
+    var fish02 = map.findObject("KobjectLayer", (obj) => obj.name === "Ksnacks2");
+    this.fish02 = this.physics.add.sprite(fish02.x, fish02.y, 'Ksnacks2').play('snacksAnim');
+    this.fish02.body.setSize(this.fish02.width*0.7, this.fish02.height*0.5)
 
     // snacks3
-    var Kheart3 = map.findObject("KobjectLayer", (obj) => obj.name === "Ksnacks3");
-    this.Kheart3 = this.physics.add.sprite(Kheart3.x, Kheart3.y, 'Ksnacks3').play('snacksAnim');
-    this.Kheart3.body.setSize(this.Kheart3.width*0.7, this.Kheart3.height*0.5)
+    var fish03 = map.findObject("KobjectLayer", (obj) => obj.name === "Ksnacks3");
+    this.fish03 = this.physics.add.sprite(fish03.x, fish03.y, 'Ksnacks3').play('snacksAnim');
+    this.fish03.body.setSize(this.fish03.width*0.7, this.fish03.height*0.5)
 
 
       // this.time.addEvent({
@@ -103,7 +110,7 @@ class level2 extends Phaser.Scene {
       
    
   // main player
-  this.player = this.physics.add.sprite(100, 400, 'player');
+  this.player = this.physics.add.sprite(350, 400, 'player');
   window.player = this.player
 
   // What will collider witg what layers
@@ -125,17 +132,23 @@ class level2 extends Phaser.Scene {
     // Add time event / movement here
 
     // overlap1 fish
-    this.physics.add.overlap(this.Kheart1, this.player, this.overlap1, null, this);
-    this.physics.add.overlap(this.Kheart2, this.player, this.overlap1, null, this);
-    this.physics.add.overlap(this.Kheart3, this.player, this.overlap1, null, this);
+    this.physics.add.overlap(this.fish01, this.player, collectfish, null, this);
+    this.physics.add.overlap(this.fish02, this.player, collectfish, null, this);
+    this.physics.add.overlap(this.fish03, this.player, collectfish, null, this);
 
     // overlap2 dad
-    this.physics.add.overlap(this.dad, this.player, this.overlap2, null, this);
+    this.physics.add.overlap(this.dad, this.player, dadcaught, null, this);
+    
 
-    // get the tileIndex number in json, +1
-    //mapLayer.setTileIndexCallback(11, this.room1, this);
+    // // lifes
+    // this.heart01 = this.add.sprite(50,50,"heart").play('heartAnim').setScrollFactor(0).setVisible(true);
+    // this.heart02 = this.add.sprite(120,50,"heart").play('heartAnim').setScrollFactor(0).setVisible(true);
+    // this.heart03 = this.add.sprite(190,50,"heart").play('heartAnim').setScrollFactor(0).setVisible(true);
 
-    // Add custom properties in Tiled called "mouintain" as bool
+    //fish collect
+    this.fish01 = this.add.sprite(600,50,"snacks").play('snacksAnim').setScrollFactor(0).setVisible(false);
+    this.fish02 = this.add.sprite(670,50,"snacks").play('snacksAnim').setScrollFactor(0).setVisible(false);
+    this.fish03 = this.add.sprite(740,50,"snacks").play('snacksAnim').setScrollFactor(0).setVisible(false);
 
     // camera follow player
     this.cameras.main.startFollow(this.player);
@@ -152,6 +165,9 @@ class level2 extends Phaser.Scene {
           console.log("B pressed (previous game)");
               this.scene.start("level1");
           }, this );
+
+           // start another scene in parallel
+        this.scene.launch("showInventory");
   } /////////////////// end of create //////////////////////////////
 
   update() {
@@ -160,8 +176,8 @@ class level2 extends Phaser.Scene {
     this.physics.moveToObject( this.dad, this.player, 150, 2000);
 
     if (this.player.y > 566 && this.player.y < 617 && this.player.x > 670 && this.player.x < 694) {
-    console.log("Jump to winningScene2")
-    this.winningScene2();
+    console.log("level 2 success")
+    this.levelwin2();
     }
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -203,17 +219,25 @@ class level2 extends Phaser.Scene {
     this.scene.start("level3")
   }
 
-  winningScene2(player, tile){
-    console.log("winningScene2 function")
-    this.scene.start("winningScene2")
+  // winningScene2(player, tile){
+  //   console.log("winningScene2 function")
+  //   this.scene.start("winningScene2")
+  // }
+
+  levelwin2(){
+    console.log("level 2 success")
+
+    if(window.snacks == 3){
+      this.scene.start("winningScene2");
+    }
   }
 
-  overlap1(Kheart1, player){
-    console.log("fish overlap player")
-    // play collect sound
-    this.collectSnd.play();
-    Kheart1.disableBody( true, true);
-  }
+  // overlap1(Kheart1, player){
+  //   console.log("fish overlap player")
+  //   // play collect sound
+  //   this.collectSnd.play();
+  //   Kheart1.disableBody( true, true);
+  // }
 
   overlap2(dad, play){
     // play loose life sound

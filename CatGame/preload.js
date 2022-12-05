@@ -34,8 +34,14 @@ class preload extends Phaser.Scene {
     // puddle sprite
     this.load.spritesheet('puddles','assets/puddle.png',{ frameWidth:64, frameHeight:64 });
 
-    // preload bg
+    // intro bg
     this.load.image("background1","assets/intro_bg2.jpg");
+
+     // preload bg
+     this.load.image("preloadbg","assets/preload.jpg");
+
+     // main bg
+     this.load.image("story","assets/window.png");
 
     // rules
     this.load.image("rules", "assets/window.png");
@@ -54,10 +60,27 @@ class preload extends Phaser.Scene {
 
      // winning
      this.load.image("won", "assets/win_bg.jpg");
+
+    //  game over
+    this.load.image("loose", "assets/loose_bg.jpg");
+
+    // audio
+    this.load.audio("waiting", "assets/sound_effects/elevator.mp3");
+    this.load.audio("game1", "assets/sound_effects/level1.mp3");
   }
 
   create() {
     console.log("*** preload scene");
+
+    // audio play
+    this.music = this.sound
+    .add("game1",{
+        loop : true,
+    })
+    .setVolume(0.4);
+    this.waiting = this.music;
+
+    this.music.play();
 
     // Player animation
     this.anims.create({
@@ -147,12 +170,12 @@ class preload extends Phaser.Scene {
       });
 
       // intro text
-      this.add.sprite(400,400,"background1").setScale(10);
-      this.add.text(120,230, 'A Day in Life of Omi' , { font: '35px Fipps', fill: '#000000'});
-      this.add.text(200,480, 'press space to continue!' , { font: '20px Fipps', fill: '#96450f'});
+      this.add.sprite(400,400,"preloadbg").setScale(2);
+      // this.add.text(120,230, 'A Day in Life of Omi' , { font: '35px Fipps', fill: '#000000'});
+      // this.add.text(200,480, 'press space to continue!' , { font: '20px Fipps', fill: '#96450f'});
 
-      // player
-      this.player = this.physics.add.sprite(370, 400, 'player').play('leftplayer').setScale(2);
+      // // player
+      // this.player = this.physics.add.sprite(370, 400, 'player').play('leftplayer').setScale(2);
  
 
 // Check for spacebar or any key here

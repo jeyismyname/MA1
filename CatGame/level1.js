@@ -24,17 +24,36 @@ class level1 extends Phaser.Scene {
     this.load.audio("collect", "assets/sound_effects/collectcoin.mp3");
     this.load.audio("loose", "assets/sound_effects/loose_life.mp3");
     this.load.audio("yay", "assets/sound_effects/yay.mp3");
-    this.load.audio("finish", "assets/sound_effects/levelcomplete.mp3");
+    this.load.audio("game1", "assets/sound_effects/level1.mp3");
 
   }
 
   create() {
     console.log("*** world scene");
 
+    // Call to update inventory
+    this.time.addEvent({
+      delay: 500,
+      callback: updateInventory,
+      callbackScope: this,
+      loop: false,
+    });
+
   //sound effects
     this.collectSnd = this.sound.add("collect");
     this.looseSnd = this.sound.add("loose");
     this.yaySnd = this.sound.add("yay");
+    this.game1Snd = this.sound.add("game1");
+
+
+    // bg music
+    // this.music = this.sound
+    // .add("game1",{
+    //     loop : true,
+    // })
+    // .setVolume(0.4);
+    // this.game1 = this.music;
+    // this.music.play();
     // this.completelevel = this.sound.add("finish");
     
 
@@ -87,6 +106,9 @@ class level1 extends Phaser.Scene {
     this.heart3 = this.physics.add.sprite(heart3.x, heart3.y, 'heart3').play('heartAnim').setScale(0.8);
     this.heart3.body.setSize(this.heart3.width*0.7, this.heart3.height*0.5)
 
+
+    // lizard collect
+    this.lizard01 = this.add.sprite(300,50, "lizard").setScrollFactor(0).setVisible(false);
     
     //    // enemy moving
     // this.time.addEvent({
@@ -114,7 +136,7 @@ class level1 extends Phaser.Scene {
 
    
   // main player
-  this.player = this.physics.add.sprite(100, 400, 'player');
+  this.player = this.physics.add.sprite(550, 400, 'player');
   window.player = this.player
 
  
@@ -136,19 +158,18 @@ class level1 extends Phaser.Scene {
   this.player.body.setSize(this.player.width*0.7, this.player.height*0.7)
 
         
-    
 
     // Add time event / movement here
       // overlap1
-      this.physics.add.overlap(this.heart1, this.player, this.overlap1, null, this);
-      this.physics.add.overlap(this.heart2, this.player, this.overlap1, null, this);
-      this.physics.add.overlap(this.heart3, this.player, this.overlap1, null, this);
+      this.physics.add.overlap(this.heart1, this.player, collectHeart, null, this);
+      this.physics.add.overlap(this.heart2, this.player, collectHeart, null, this);
+      this.physics.add.overlap(this.heart3, this.player, collectHeart, null, this);
 
     // overlap 2 robot
-      this.physics.add.overlap(this.robot, this.player, this.overlap2, null, this);
+      this.physics.add.overlap(this.robot, this.player, robotcaught, null, this);
 
     // overlap 3 lizard
-    this.physics.add.overlap(this.lizard1, this.player, this.overlap3, null, this);
+    this.physics.add.overlap(this.lizard1, this.player, collectLizard, null, this);
 
     // camera follow player
     this.cameras.main.startFollow(this.player);
@@ -163,10 +184,11 @@ class level1 extends Phaser.Scene {
       var bDown = this.input.keyboard.addKey('B');
       bDown.on('down', function(){
         console.log("B pressed (reload game)");
-            this.scene.start("main");
+            this.scene.start("gameover1");
         }, this );
 
-        
+        // start another scene in parallel
+        this.scene.launch("showInventory");
 
   } /////////////////// end of create //////////////////////////////
 
@@ -177,7 +199,7 @@ class level1 extends Phaser.Scene {
 
     if (this.player.y > 878 && this.player.y < 913 && this.player.x > 566 && this.player.x < 617) {
       console.log("Jump to winningScene")
-      this.winningScene();
+      this.levelwin()
       
       }
 
@@ -221,30 +243,38 @@ class level1 extends Phaser.Scene {
     this.scene.start("level2")
   }
 
-  winningScene(player, tile){
-    console.log("winningScene function")
-    this.scene.start("winningScene")
+  // winningScene(player, tile){
+  //   console.log("winningScene function")
+  //   this.scene.start("winningScene")
+  // }
+
+  levelwin(){
+    console.log("level 1 success")
+
+    if(window.heart == 3 && window.lizard == 1){
+      this.scene.start("winningScene");
+    } else if (window.heart == 4 && window.lizard == 1){
+      this.scene.start("winningScene");
+    }
   }
 
-  overlap1(heart, player){
-    console.log("heart overlap player")
-    // play collect sound
-    this.collectSnd.play();
-    heart.disableBody( true, true);
-  }
 
-  overlap2(robot, player){
-    console.log("robot overlap player")
-    // play loose sound
-    this.looseSnd.play();
-  }
+  // overlap3(lizard, player){
+  //   console.log("lizard overlap player")
+  //   // play yay sound
+  //   this.yaySnd.play();
+  //   lizard.disableBody(true, true);
 
-  overlap3(lizard, player){
-    console.log("lizard overlap player")
-    // play yay sound
-    this.yaySnd.play();
-    lizard.disableBody(true, true);
-  }
+  //   window.lizard = window.lizard + 1;
+  //   console.log("lizard1", window.lizard);
+
+  //   if (window.lizard == 0){
+  //     this.lizard01.setVisible(false);
+  //   }else if (window.lizard == 1 ){
+  //     this.lizard01.setVisible(true);
+  //   }
+    
+  // }
 
   moveDownUp() {
     console.log("moveDownUp");

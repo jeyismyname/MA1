@@ -29,20 +29,16 @@ class intro1 extends Phaser.Scene {
     this.add.sprite(400,400,"rule_1");
 
     // heart anim
-    this.heart = this.physics.add.sprite(280, 110, 'heart').play('heartAnim');
-
-     // text
-     this.add.text(320,80, 'Level 1' , { font: '32px Fipps', fill: '#000000'});
-     this.add.text(200,600, 'press space to level 1!' , { font: '20px Fipps', fill: '#96450f'});
-
-    
+    this.heart = this.physics.add.sprite(270, 150, 'heart').play('heartAnim');
+  
         // Check for spacebar or any key here
         var spaceDown = this.input.keyboard.addKey('SPACE');
 
         // On spacebar event, call the world scene        
         spaceDown.on('down', function () {
-            console.log('Jump to level q scene');
-
+            console.log('Jump to level 1 scene');
+            // this.music.loop = false;
+          
             this.scene.start('level1',
                 // Optional parameters
                 {
@@ -59,10 +55,11 @@ class intro1 extends Phaser.Scene {
      
   } /////////////////// end of update //////////////////////////////
 
-  // function to level 2
-  // level2(player, tile){
-  //   console.log("level2 function")
-  //   this.scene.start("level2")
+  // // function to level 2
+  // level1(player, tile){
+  //   console.log("level1 function")
+  //   this.scene.start("level1")
+  //   this.music.stop();
   // }
 
 } //////////// end of class world ////////////////////////

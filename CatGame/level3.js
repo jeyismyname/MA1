@@ -28,6 +28,14 @@ class level3 extends Phaser.Scene {
   create() {
     console.log("*** level3 scene");
 
+     // Call to update inventory
+     this.time.addEvent({
+      delay: 500,
+      callback: updateInventory,
+      callbackScope: this,
+      loop: false,
+    });
+
     //Step 3 - Create the map from main
     //let map = this.make.tilemap({ key: "world1" });
     let map = this.make.tilemap({ key: "world3" });
@@ -104,54 +112,47 @@ class level3 extends Phaser.Scene {
   // main player
   this.player = this.physics.add.sprite(206, 247, 'player');
 
-  // What will collider witg what layers
-  this.treeLayer.setCollisionByExclusion(-1, true) 
-  this.physics.add.collider(this.treeLayer, this.player);
-
-  this.houseLayer.setCollisionByExclusion(-1, true) 
-  this.physics.add.collider(this.houseLayer, this.player);
-
-  // player stay within map
-  this.physics.world.bounds.width = this.groundLayer.width
-  this.physics.world.bounds.height = this.groundLayer.height
-  this.player.setCollideWorldBounds(true);
-
   // player resize
   this.player.body.setSize(this.player.width*0.7, this.player.height*0.7)
 
   
-  // this.time.addEvent({
-  //   delay: 0,
-  //   callback: this.moveRightLeft,
-  //   callbackScope: this,
-  //   loop: false,
-  // });
+  //cockroach collect
+  this.bug01 = this.add.sprite(600,50,"roach").play('roachAnim').setScrollFactor(0).setVisible(false);
+  this.bug02 = this.add.sprite(670,50,"roach").play('roachAnim').setScrollFactor(0).setVisible(false);
+  this.bug03 = this.add.sprite(740,50,"roach").play('roachAnim').setScrollFactor(0).setVisible(false);
 
   // enemy movements
-  this.straycat = this.physics.add.sprite(880, 300, 'straycat');
-    
-
-    // Add time event / movement here
+  this.straycat = this.physics.add.sprite(480, 300, 'straycat');
 
    // overlap1 puddles
-  this.physics.add.overlap(this.puddle_1, this.player, this.overlap1, null, this);
-  this.physics.add.overlap(this.puddle_2, this.player, this.overlap1, null, this);
-  this.physics.add.overlap(this.puddle_3, this.player, this.overlap1, null, this);
-  this.physics.add.overlap(this.puddle_4, this.player, this.overlap1, null, this);
-  this.physics.add.overlap(this.puddle_5, this.player, this.overlap1, null, this);
+  this.physics.add.overlap(this.puddle_1, this.player, puddlecaught, null, this);
+  this.physics.add.overlap(this.puddle_2, this.player, puddlecaught, null, this);
+  this.physics.add.overlap(this.puddle_3, this.player, puddlecaught, null, this);
+  this.physics.add.overlap(this.puddle_4, this.player, puddlecaught, null, this);
+  this.physics.add.overlap(this.puddle_5, this.player, puddlecaught, null, this);
 
-  // pverlap2 cockroaches
-  this.physics.add.overlap(this.cockroach1, this.player, this.overlap2, null, this);
-  this.physics.add.overlap(this.cockroach2, this.player, this.overlap2, null, this);
-  this.physics.add.overlap(this.cockroach3, this.player, this.overlap2, null, this);
+  // overlap2 cockroaches
+  this.physics.add.overlap(this.cockroach1, this.player, collectbug, null, this);
+  this.physics.add.overlap(this.cockroach2, this.player, collectbug, null, this);
+  this.physics.add.overlap(this.cockroach3, this.player, collectbug, null, this);
 
   // overlap3 straycat
-  this.physics.add.overlap(this.straycat, this.player, this.overlap3, null, this);
+  this.physics.add.overlap(this.straycat, this.player, straycaught, null, this);
 
-    // get the tileIndex number in json, +1
-    //mapLayer.setTileIndexCallback(11, this.room1, this);
+   // What will collider witg what layers
+   this.treeLayer.setCollisionByExclusion(-1, true) 
+   this.physics.add.collider(this.treeLayer, this.player);
+   this.physics.add.collider(this.treeLayer, this.straycat);
+ 
+   this.houseLayer.setCollisionByExclusion(-1, true) 
+   this.physics.add.collider(this.houseLayer, this.player);
+   this.physics.add.collider(this.houseLayer, this.straycat);
+ 
+   // player stay within map
+   this.physics.world.bounds.width = this.groundLayer.width
+   this.physics.world.bounds.height = this.groundLayer.height
+   this.player.setCollideWorldBounds(true);
 
-    // Add custom properties in Tiled called "mouintain" as bool
 
     // camera follow player
     this.cameras.main.startFollow(this.player);
@@ -166,11 +167,9 @@ class level3 extends Phaser.Scene {
     this.scene.start("winningScene3");
     }, this );
 
-    // var bDown = this.input.keyboard.addKey('B');
-    // bDown.on('down', function(){
-    //   console.log("B pressed (previous game)");
-    //       this.scene.start("level2");
-    //   }, this );
+     // start another scene in parallel
+     this.scene.launch("showInventory");
+
   } /////////////////// end of create //////////////////////////////
 
   update() {
@@ -212,23 +211,6 @@ class level3 extends Phaser.Scene {
      
   } /////////////////// end of update //////////////////////////////
 
-  overlap1(puddles, player){
-    console.log("puddle overlap player")
-    // play collect sound
-    this.splashSnd.play();
-  }
-
-  overlap2(roach, player){
-    console.log("roach overlap player")
-    // play collect sound
-    this.yaySnd.play();
-    roach.disableBody( true, true);
-  }
-
-  overlap3(straycat, play){
-    // play loose life sound
-    this.looseSnd.play();
-  }
 
   moveRightLeft() {
     console.log("moveDownUp");
