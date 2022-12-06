@@ -38,7 +38,7 @@ class preload extends Phaser.Scene {
     this.load.image("background1","assets/intro_bg2.jpg");
 
      // preload bg
-     this.load.image("preloadbg","assets/preload.jpg");
+     this.load.image("preloadbg","assets/preload2.jpg");
 
      // final sc bg
      this.load.image("ending","assets/final.jpg");
