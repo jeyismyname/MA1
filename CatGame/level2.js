@@ -9,7 +9,6 @@ class level2 extends Phaser.Scene {
 
   preload() {
     // Step 1, load JSON
-    //this.load.tilemapTiledJSON("world1", "assets/Tutorial1.json");
     this.load.tilemapTiledJSON("world2", "assets/kitchen2.tmj");
 
     // Step 2 : Preload any images here
@@ -41,14 +40,12 @@ class level2 extends Phaser.Scene {
     });
 
     //Step 3 - Create the map from main
-    //let map = this.make.tilemap({ key: "world1" });
     let map = this.make.tilemap({ key: "world2" });
 
     //sound effects
     this.collectSnd = this.sound.add("collect");
     this.looseSnd = this.sound.add("loose");
     this.yaySnd = this.sound.add("yay");
-    // this.complete = this.sound.add("complete");
      
     
     // Step 4 Load the game tiles
@@ -60,27 +57,21 @@ class level2 extends Phaser.Scene {
     let KfurnitureTiles = map.addTilesetImage("genric", "genericING");
     let KobjectTiles = map.addTilesetImage("bedroom", "bedroomING");map.addTilesetImage("hall","hallING");
     
-    
-
 
     // Step 5  create an array of tiles
-    // let tilesArray = [
-    //   buildingTiles,
-    //   streetTiles,
-    // ];
+   
     let tilesArray = [
       KfloorTiles, KwallTiles, KcarpetTiles, KfurnitureTiles, KobjectTiles
     ]
 
     // Step 6  Load in layers by layer
-
     this.KfloorLayer = map.createLayer("KfloorLayer",tilesArray,0,0);
     this.KcarpetLayer = map.createLayer("KcarpetLayer",tilesArray,0,0);
     this.KwallLayer = map.createLayer("KwallLayer",tilesArray,0,0);
     this.KfurnitureLayer = map.createLayer("KfurnitureLayer",tilesArray,0,0);
     this.KobjectLayer = map.createLayer("KobjectLayer",tilesArray,0,0);
 
-  
+  // load object from tilemap
     // snacks1
     var fish01 = map.findObject("KobjectLayer", (obj) => obj.name === "Ksnacks1");
     this.fish01 = this.physics.add.sprite(fish01.x, fish01.y, 'Ksnacks1').play('snacksAnim');
@@ -97,16 +88,10 @@ class level2 extends Phaser.Scene {
     this.fish03.body.setSize(this.fish03.width*0.7, this.fish03.height*0.5)
 
 
-      // this.time.addEvent({
-      //   delay: 0,
-      //   callback: this.moveRightLeft,
-      //   callbackScope: this,
-      //   loop: false,
-      // });
     
-      // dad
-      this.dad = this.physics.add.sprite(150, 180, 'dad').setScale(1.5);
-      this.dad.body.setSize(this.dad.width*0.5, this.dad.height*0.7);
+    // dad enemy
+    this.dad = this.physics.add.sprite(150, 180, 'dad').setScale(1.5);
+    this.dad.body.setSize(this.dad.width*0.3, this.dad.height*0.8);
       
    
   // main player
@@ -129,7 +114,7 @@ class level2 extends Phaser.Scene {
   // player resize
   this.player.body.setSize(this.player.width*0.7, this.player.height*0.7)
 
-    // Add time event / movement here
+   
 
     // overlap1 fish
     this.physics.add.overlap(this.fish01, this.player, collectfish, null, this);
@@ -140,11 +125,6 @@ class level2 extends Phaser.Scene {
     this.physics.add.overlap(this.dad, this.player, dadcaught, null, this);
     
 
-    // // lifes
-    // this.heart01 = this.add.sprite(50,50,"heart").play('heartAnim').setScrollFactor(0).setVisible(true);
-    // this.heart02 = this.add.sprite(120,50,"heart").play('heartAnim').setScrollFactor(0).setVisible(true);
-    // this.heart03 = this.add.sprite(190,50,"heart").play('heartAnim').setScrollFactor(0).setVisible(true);
-
     //fish collect
     this.fish01 = this.add.sprite(600,50,"snacks").play('snacksAnim').setScrollFactor(0).setVisible(false);
     this.fish02 = this.add.sprite(670,50,"snacks").play('snacksAnim').setScrollFactor(0).setVisible(false);
@@ -153,18 +133,18 @@ class level2 extends Phaser.Scene {
     // camera follow player
     this.cameras.main.startFollow(this.player);
 
-    var spaceDown = this.input.keyboard.addKey('SPACE');
+    // var spaceDown = this.input.keyboard.addKey('SPACE');
         
-        spaceDown.on('down', function(){
-        console.log("Spacebar pressed, goto winningScene2");
-        this.scene.start("winningScene2");
-        }, this );
+    //     spaceDown.on('down', function(){
+    //     console.log("Spacebar pressed, goto winningScene2");
+    //     this.scene.start("winningScene2");
+    //     }, this );
 
-        var bDown = this.input.keyboard.addKey('B');
-        bDown.on('down', function(){
-          console.log("B pressed (previous game)");
-              this.scene.start("level1");
-          }, this );
+    //     var bDown = this.input.keyboard.addKey('B');
+    //     bDown.on('down', function(){
+    //       console.log("B pressed (previous game)");
+    //           this.scene.start("level1");
+    //       }, this );
 
            // start another scene in parallel
         this.scene.launch("showInventory");
@@ -219,25 +199,17 @@ class level2 extends Phaser.Scene {
     this.scene.start("level3")
   }
 
-  // winningScene2(player, tile){
-  //   console.log("winningScene2 function")
-  //   this.scene.start("winningScene2")
-  // }
-
+  // function th jump to winning scene
   levelwin2(){
     console.log("level 2 success")
 
-    if(window.snacks == 3){
+    if(window.snacks = 3){
+      this.scene.start("winningScene2");
+    } else if(window.snacks > 3){
       this.scene.start("winningScene2");
     }
   }
 
-  // overlap1(Kheart1, player){
-  //   console.log("fish overlap player")
-  //   // play collect sound
-  //   this.collectSnd.play();
-  //   Kheart1.disableBody( true, true);
-  // }
 
   overlap2(dad, play){
     // play loose life sound

@@ -9,7 +9,6 @@ class level3 extends Phaser.Scene {
 
   preload() {
     // Step 1, load JSON
-    //this.load.tilemapTiledJSON("world1", "assets/Tutorial1.json");
     this.load.tilemapTiledJSON("world3", "assets/garden.tmj");
 
     // Step 2 : Preload any images here
@@ -21,7 +20,6 @@ class level3 extends Phaser.Scene {
      this.load.audio("loose", "assets/sound_effects/loose_life.mp3");
      this.load.audio("yay", "assets/sound_effects/yay.mp3");
      this.load.audio("water","assets/sound_effects/splash2.mp3");
-    
 
   }
 
@@ -37,7 +35,6 @@ class level3 extends Phaser.Scene {
     });
 
     //Step 3 - Create the map from main
-    //let map = this.make.tilemap({ key: "world1" });
     let map = this.make.tilemap({ key: "world3" });
 
     //sound effects
@@ -52,13 +49,8 @@ class level3 extends Phaser.Scene {
     let groundTiles = map.addTilesetImage("garden","gardenING");
     let treeTiles = map.addTilesetImage("trees","treesING");
     
-    
 
     // Step 5  create an array of tiles
-    // let tilesArray = [
-    //   buildingTiles,
-    //   streetTiles,
-    // ];
     let tilesArray = [
       groundTiles, treeTiles
     ]
@@ -70,6 +62,8 @@ class level3 extends Phaser.Scene {
     this.plantLayer = map.createLayer("plantLayer",tilesArray,0,0);
     this.houseLayer = map.createLayer("houseLayer",tilesArray,0,0);
 
+
+    // load object from tilemap
     //roach1
     var cockroach1 = map.findObject("objectLayer1", (obj) => obj.name === "cockroach1");
     this.cockroach1 = this.physics.add.sprite(cockroach1.x, cockroach1.y, 'cockroach1').play('roachAnim');
@@ -82,7 +76,7 @@ class level3 extends Phaser.Scene {
     var cockroach3 = map.findObject("objectLayer1", (obj) => obj.name === "cockroach3");
     this.cockroach3 = this.physics.add.sprite(cockroach3.x, cockroach3.y, 'cockroach3').play('roachAnim');
 
-    
+  
       // puddle 1
     var puddle_1 = map.findObject("enemyLayerP", (obj) => obj.name === "puddle_1");
     this.puddle_1 = this.physics.add.sprite(puddle_1.x, puddle_1.y, 'puddle_1').play('puddleAnim');
@@ -123,6 +117,7 @@ class level3 extends Phaser.Scene {
 
   // enemy movements
   this.straycat = this.physics.add.sprite(480, 300, 'straycat');
+  this.straycat.body.setSize(this.straycat.width*0.6, this.straycat.height*0.6);
 
    // overlap1 puddles
   this.physics.add.overlap(this.puddle_1, this.player, puddlecaught, null, this);
@@ -160,12 +155,12 @@ class level3 extends Phaser.Scene {
     
     this.player.setCollideWorldBounds(true);
 
-    var spaceDown = this.input.keyboard.addKey('SPACE');
+    // var spaceDown = this.input.keyboard.addKey('SPACE');
         
-    spaceDown.on('down', function(){
-    console.log("Spacebar pressed, goto winingScene3");
-    this.scene.start("winningScene3");
-    }, this );
+    // spaceDown.on('down', function(){
+    // console.log("Spacebar pressed, goto winingScene3");
+    // this.scene.start("winningScene3");
+    // }, this );
 
      // start another scene in parallel
      this.scene.launch("showInventory");

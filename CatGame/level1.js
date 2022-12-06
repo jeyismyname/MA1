@@ -9,12 +9,9 @@ class level1 extends Phaser.Scene {
 
   preload() {
     // Step 1, load JSON
-    //this.load.tilemapTiledJSON("world1", "assets/Tutorial1.json");
     this.load.tilemapTiledJSON("world1", "assets/livingroom2.tmj");
 
     // Step 2 : Preload any images here
-    //this.load.image("building", "assets/Buildings32x32.png");
-    //this.load.image("street", "assets/Street32x32.png");
     this.load.image("genericING", "assets/1_Generic_32x32.png");
     this.load.image("basementING", "assets/14_Basement_32x32.png");
     this.load.image("livingroom", "assets/2_LivingRoom_32x32.png");
@@ -46,27 +43,14 @@ class level1 extends Phaser.Scene {
     this.game1Snd = this.sound.add("game1");
 
 
-    // bg music
-    // this.music = this.sound
-    // .add("game1",{
-    //     loop : true,
-    // })
-    // .setVolume(0.4);
-    // this.game1 = this.music;
-    // this.music.play();
-    // this.completelevel = this.sound.add("finish");
-    
-
     //Step 3 - Create the map from main
-    //let map = this.make.tilemap({ key: "world1" });
     let map = this.make.tilemap({ key: "world1" });
 
     
     // Step 4 Load the game tiles
     // 1st parameter is name in Tiled,
     // 2nd parameter is key in Preload
-    //let buildingTiles = map.addTilesetImage("Buildings32x32", "building");
-    //let streetTiles = map.addTilesetImage("Street32x32", "street");
+
     let floorTiles = map.addTilesetImage("pipoya","pipoyaING");
     let wallTiles = map.addTilesetImage("LivingRoom", "livingroom");
     let carpetTiles = map.addTilesetImage("basement", "basementING");
@@ -74,10 +58,7 @@ class level1 extends Phaser.Scene {
 
 
     // Step 5  create an array of tiles
-    // let tilesArray = [
-    //   buildingTiles,
-    //   streetTiles,
-    // ];
+ ;
     let tilesArray = [
       floorTiles, wallTiles, carpetTiles, furnitureTiles
     ]
@@ -90,7 +71,7 @@ class level1 extends Phaser.Scene {
     this.furnitureLayer = map.createLayer("furnitureLayer",tilesArray,0,0);
 
   
-  
+  // Load object from tilemap
     // heart1
     var heart1 = map.findObject("objectlayer", (obj) => obj.name === "heart1");
     this.heart1 = this.physics.add.sprite(heart1.x, heart1.y, 'heart1').play('heartAnim').setScale(0.8);
@@ -103,21 +84,13 @@ class level1 extends Phaser.Scene {
 
     // heart3
     var heart3 = map.findObject("objectlayer", (obj) => obj.name === "heart3");
-    this.heart3 = this.physics.add.sprite(heart3.x, heart3.y, 'heart3').play('heartAnim').setScale(0.8);
+    this.heart3 = this.physics.add.sprite(heart3.x, heart3.y, 'heart3').play('heartAnim').setScale(0.8)
     this.heart3.body.setSize(this.heart3.width*0.7, this.heart3.height*0.5)
 
 
     // lizard collect
     this.lizard01 = this.add.sprite(300,50, "lizard").setScrollFactor(0).setVisible(false);
     
-    //    // enemy moving
-    // this.time.addEvent({
-    //   delay: 2000,
-    //   callback: this.moveDownUp,
-    //   callbackScope: this,
-    //   loop: false,
-    //   });
-
     // enemy
     this.robot = this.physics.add.sprite(380, 180, 'robot').play('robotAnim');
     this.robot.body.setSize(this.robot.width*0.7, this.robot.height*0.5);
@@ -174,18 +147,18 @@ class level1 extends Phaser.Scene {
     // camera follow player
     this.cameras.main.startFollow(this.player);
 
-    var spaceDown = this.input.keyboard.addKey('SPACE');
+    // var spaceDown = this.input.keyboard.addKey('SPACE');
         
-        spaceDown.on('down', function(){
-        console.log("Spacebar pressed, goto winningScene");
-        this.scene.start("winningScene");
-        }, this );
+    //     spaceDown.on('down', function(){
+    //     console.log("Spacebar pressed, goto winningScene");
+    //     this.scene.start("winningScene");
+    //     }, this );
 
-      var bDown = this.input.keyboard.addKey('B');
-      bDown.on('down', function(){
-        console.log("B pressed (reload game)");
-            this.scene.start("gameover1");
-        }, this );
+    //   var bDown = this.input.keyboard.addKey('B');
+    //   bDown.on('down', function(){
+    //     console.log("B pressed (reload game)");
+    //         this.scene.start("gameover1");
+    //     }, this );
 
         // start another scene in parallel
         this.scene.launch("showInventory");
@@ -243,11 +216,7 @@ class level1 extends Phaser.Scene {
     this.scene.start("level2")
   }
 
-  // winningScene(player, tile){
-  //   console.log("winningScene function")
-  //   this.scene.start("winningScene")
-  // }
-
+  // function to jump to winning scene
   levelwin(){
     console.log("level 1 success")
 
@@ -257,24 +226,6 @@ class level1 extends Phaser.Scene {
       this.scene.start("winningScene");
     }
   }
-
-
-  // overlap3(lizard, player){
-  //   console.log("lizard overlap player")
-  //   // play yay sound
-  //   this.yaySnd.play();
-  //   lizard.disableBody(true, true);
-
-  //   window.lizard = window.lizard + 1;
-  //   console.log("lizard1", window.lizard);
-
-  //   if (window.lizard == 0){
-  //     this.lizard01.setVisible(false);
-  //   }else if (window.lizard == 1 ){
-  //     this.lizard01.setVisible(true);
-  //   }
-    
-  // }
 
   moveDownUp() {
     console.log("moveDownUp");

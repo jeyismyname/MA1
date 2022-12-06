@@ -8,12 +8,11 @@ class intro2 extends Phaser.Scene {
   }
 
   preload() {
-    // Step 1, load JSON
-    //this.load.tilemapTiledJSON("world1", "assets/Tutorial1.json");
+
+    // bg image
     this.load.image("intros", "assets/levels.jpg");
        // level2 rules
     this.load.image("rule_2", "assets/level2_rules.png");
-   
 
   }
 
@@ -52,16 +51,7 @@ class intro2 extends Phaser.Scene {
  
   } /////////////////// end of create //////////////////////////////
 
-  update() {
-
-
-     
+  update() {  
   } /////////////////// end of update //////////////////////////////
-
-  // function to level 2
-  // level2(player, tile){
-  //   console.log("level2 function")
-  //   this.scene.start("level2")
-  // }
 
 } //////////// end of class world ////////////////////////

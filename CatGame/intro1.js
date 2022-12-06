@@ -8,10 +8,6 @@ class intro1 extends Phaser.Scene {
   }
 
   preload() {
-    // Step 1, load JSON
-    //this.load.tilemapTiledJSON("world1", "assets/Tutorial1.json");
-    
-   
 
   }
 
@@ -50,16 +46,7 @@ class intro1 extends Phaser.Scene {
   } /////////////////// end of create //////////////////////////////
 
   update() {
-
-
-     
+ 
   } /////////////////// end of update //////////////////////////////
-
-  // // function to level 2
-  // level1(player, tile){
-  //   console.log("level1 function")
-  //   this.scene.start("level1")
-  //   this.music.stop();
-  // }
 
 } //////////// end of class world ////////////////////////

@@ -34,7 +34,12 @@ updateInventory(data) {
 
   switch ( data.heart ) {
 
-     case 3: 
+    case 4: 
+          this.heart01.setVisible(true)
+          this.heart02.setVisible(true)
+          this.heart03.setVisible(true)
+          break; 
+    case 3: 
          this.heart01.setVisible(true)
          this.heart02.setVisible(true)
          this.heart03.setVisible(true)

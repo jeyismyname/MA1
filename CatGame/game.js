@@ -10,14 +10,14 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true
+            debug: false
         }
     },
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    backgroundColor: '#000000',
+    backgroundColor: '#e8dbae',
     pixelArt: true,
     scene: [preload, main, intro1, intro2, intro3, winningScene, winningScene2, winningScene3, level1,
         level2, level3, ending_win, gameover1, room1, showInventory, gameover2, gameover3]

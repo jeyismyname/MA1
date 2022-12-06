@@ -40,6 +40,9 @@ class preload extends Phaser.Scene {
      // preload bg
      this.load.image("preloadbg","assets/preload.jpg");
 
+     // final sc bg
+     this.load.image("ending","assets/final.jpg");
+
      // main bg
      this.load.image("story","assets/window.png");
 
@@ -63,6 +66,11 @@ class preload extends Phaser.Scene {
 
     //  game over
     this.load.image("loose", "assets/loose_bg.jpg");
+
+    //  congrats
+    this.load.image("winning1", "assets/congrats.jpg");
+    this.load.image("winning2", "assets/winning2.jpg");
+    this.load.image("winning3", "assets/winning3.jpg");
 
     // audio
     this.load.audio("waiting", "assets/sound_effects/elevator.mp3");

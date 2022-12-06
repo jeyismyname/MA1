@@ -54,16 +54,7 @@ class gameover3 extends Phaser.Scene {
  
   } /////////////////// end of create //////////////////////////////
 
-  update() {
-
-
-     
+  update() {  
   } /////////////////// end of update //////////////////////////////
-
-  // function to level 2
-  // level2(player, tile){
-  //   console.log("level2 function")
-  //   this.scene.start("level2")
-  // }
 
 } //////////// end of class world ////////////////////////

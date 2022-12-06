@@ -42,7 +42,7 @@ class gameover2 extends Phaser.Scene {
 
         // On spacebar event, restart game     
         spaceDown.on('down', function () {
-            console.log('Jump to level1 scene');
+            console.log('restart level 2');
 
             this.scene.start('level2',
                 // Optional parameters
@@ -59,11 +59,5 @@ class gameover2 extends Phaser.Scene {
 
      
   } /////////////////// end of update //////////////////////////////
-
-  // function to level 2
-  // level2(player, tile){
-  //   console.log("level2 function")
-  //   this.scene.start("level2")
-  // }
 
 } //////////// end of class world ////////////////////////
